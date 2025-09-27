@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package org.v1;
 
-option go_package = "github.com/pyatnitsev/lensflare-proto/gen/org;orgpb";
+option go_package = "gen/org/v1;orgv1";
 
 // OrgService — владелец организаций
 service OrgService {
