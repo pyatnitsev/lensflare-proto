@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/pyatnitsev/lensflare-proto/gen/auth;authpb";
+
+// AuthService — отвечает за пользователей, права, связи user/org
+service AuthService {
+  // Проверить права пользователя по JWT (вызывается микросервисами)
+  rpc Check(CheckRequest) returns (CheckResponse);
+
+  // Привязать пользователя к организации (гарантийная ручка для OrgService или очереди)
+  rpc AddUserToOrg(AddUserToOrgRequest) returns (AddUserToOrgResponse);
+
+  // Получить себя
+  rpc GetMe(GetMeRequest) returns (GetMeResponse);
+  // Получение пользователя
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}
+
+// Проверка прав (JWT-based)
+message CheckRequest {
+  string jwt_token = 1;
+  string object_type = 2;
+  string object_id = 3;
+  string action = 4;
+  repeated string roles = 5;
+}
+
+message CheckResponse {
+  bool allowed = 1;
+  string error_type = 2;
+  string error_message = 3;
+}
+
+// Привязка пользователя к организации (owner, admin и т.д.)
+message AddUserToOrgRequest {
+  string user_id = 1;
+  string org_id = 2;
+  string role = 3; // owner, admin, member...
+}
+message AddUserToOrgResponse {
+  bool success = 1;
+  string error_message = 2;
+}
+
+message GetMeRequest {
+  string jwt_token = 2;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+  string jwt_token = 2;
+}
+message GetUserResponse {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string first_name = 4;
+  string last_name = 5;
+  repeated string roles = 6;
+  repeated UserOrgInfo orgs = 7;
+}
+
+message GetMeResponse {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string first_name = 4;
+  string last_name = 5;
+  repeated string roles = 6;
+  repeated UserOrgInfo orgs = 7;
+}
+
+message UserOrgInfo {
+  string id = 1;
+  string role = 2;
+}

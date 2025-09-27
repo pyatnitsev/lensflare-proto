@@ -1,0 +1,28 @@
+# IDE
+.idea/
+.vscode/
+
+# Go
+bin/
+gen/
+*.exe
+*.test
+*.out
+
+# Go modules
+go.sum
+
+# OS files
+.DS_Store
+
+# buf
+buf.gen.*
+
+# Protobuf artifacts (можно добавить по желанию)
+*.pb.go
+
+# Logs
+*.log
+
+# Env
+.env
